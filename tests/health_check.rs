@@ -1,3 +1,5 @@
+use std::arch::x86_64;
+
 use reqwest;
 
 #[tokio::test]
@@ -15,7 +17,7 @@ async fn health_check_works() {
 	assert_eq!(Some(0), response.content_length());
 }
 
-async fn spawn_app() {
+fn spawn_app() {
 	let server = zero2prod::run().expect("Failed to bind address");
 	let _ = tokio::spawn(server);
 }
