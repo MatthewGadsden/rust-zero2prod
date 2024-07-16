@@ -3,30 +3,36 @@ use std::net::TcpListener;
 
 #[tokio::test]
 async fn health_check_works() {
+	// Arrange
 	let port = spawn_app();
 	let client = reqwest::Client::new();
 
+	// Act
 	let response = client
 		.get(format!("http://127.0.0.1:{}/health_check", port))
 		.send()
 		.await
 		.expect("Failed to execute request.");
 
+	// Response
 	assert!(response.status().is_success());
 	assert_eq!(Some(0), response.content_length());
 }
 
 #[tokio::test]
 async fn api_base_works() {
+	// Arrange
 	let port = spawn_app();
 	let client = reqwest::Client::new();
 
+	// Act
 	let response = client
 		.get(format!("http://127.0.0.1:{}/", port))
 		.send()
 		.await
 		.expect("Failed to execute request.");
 
+	// Response
 	assert!(response.status().is_success());
 	assert_eq!(Some(0), response.content_length());
 }
