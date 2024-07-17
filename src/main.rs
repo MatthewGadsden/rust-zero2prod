@@ -3,8 +3,8 @@ use zero2prod::run;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-	let address = "127.0.0.1:5000";
-	let listener = TcpListener::bind(address).expect("Failed to bind random port");
+	const ADDRESS: &str = "127.0.0.1:5000";
+	let listener = TcpListener::bind(ADDRESS).expect("Failed to bind random port");
 
 	run(listener)?.await
 }
