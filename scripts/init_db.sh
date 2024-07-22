@@ -14,6 +14,7 @@ DB_HOST="${POSTGRES_HOST:=localhost}"
 
 # Lauch postgres with Docker
 docker run \
+        --name zero2prod-postgres\
         -e POSTGRES_USER=${DB_USER} \
         -e POSTGRES_PASSWORD=${DB_PASSWORD} \
         -e POSTGRES_DB=${DB_NAME} \
