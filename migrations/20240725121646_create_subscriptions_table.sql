@@ -1,7 +1,9 @@
 CREATE TABLE subscriptions(
         id uuid NOT NULL,
         PRIMARY KEY (id),
-        email TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL,
         name TEXT NOT NULL,
-        subscribed_at timestampz NOT NULL
+        subscribed_at timestamptz NOT NULL
 );
+
+ALTER TABLE subscriptions ADD CONSTRAINT UX_SUBSCRIPTIONS_EMAIL UNIQUE (email);
