@@ -6,4 +6,4 @@ CREATE TABLE subscriptions(
         subscribed_at timestamptz NOT NULL
 );
 
-ALTER TABLE subscriptions ADD CONSTRAINT UX_SUBSCRIPTIONS_EMAIL UNIQUE (email);
+ALTER TABLE subscriptions ADD CONSTRAINT ux_subscriptions_email UNIQUE (email);
