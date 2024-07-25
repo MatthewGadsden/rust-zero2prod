@@ -6,7 +6,7 @@ if ! [ -x "$(command -v psql)" ]; then
         exit 1
 fi
 
-if ! [ -x "$(command -v sqlx)"]; then
+if ! [ -x "$(command --version sqlx)"]; then
         echo >&2 "Error: sqlx is not installed"
         echo >&2 "Use:"
         echo >&2 "      cargo install sqlx-cli --no-default-features --features rustls,postgres"
