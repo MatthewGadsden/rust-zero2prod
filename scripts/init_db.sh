@@ -26,14 +26,7 @@ DB_PORT="${POSTGRES_PORT:=5433}"
 DB_HOST="${POSTGRES_HOST:=localhost}"
 
 # Lauch postgres with Docker
-docker run \
-        --name zero2prod-postgres\
-        -e POSTGRES_USER=${DB_USER} \
-        -e POSTGRES_PASSWORD=${DB_PASSWORD} \
-        -e POSTGRES_DB=${DB_NAME} \
-        -p "${DB_PORT}":5432 \
-        -d postgres \
-        postgres -N 1000
+>&2 echo "$(command docker compose -f ./scripts/docker-compose.yaml up -d)"
 
 export PGPASSWORD="${DB_PASSWORD}"
 until psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
