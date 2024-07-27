@@ -26,7 +26,10 @@ DB_PORT="${POSTGRES_PORT:=5433}"
 DB_HOST="${POSTGRES_HOST:=localhost}"
 
 # Lauch postgres with Docker
->&2 echo "$(command docker compose -f ./scripts/docker-compose.yaml -p zero-2-prod up -d )"
+if [[ -z "${SKIP_DOCKER}" ]]
+then
+        >&2 echo "$(command docker compose -f ./scripts/docker-compose.yaml -p zero-2-prod up -d )"
+fi
 
 export PGPASSWORD="${DB_PASSWORD}"
 until psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
