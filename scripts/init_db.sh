@@ -2,11 +2,11 @@ set -x
 set -eo pipefail
 
 if ! [ -x "$(command -v psql)" ]; then
-        echo >&2 "Error: pql is not installed."
+        echo >&2 "Error: psql is not installed."
         exit 1
 fi
 
-if ! [ -x "$(command --version sqlx)"]; then
+if ! [ -x "$(command -v sqlx)" ]; then
         echo >&2 "Error: sqlx is not installed"
         echo >&2 "Use:"
         echo >&2 "      cargo install sqlx-cli --no-default-features --features rustls,postgres"
@@ -26,7 +26,10 @@ DB_PORT="${POSTGRES_PORT:=5433}"
 DB_HOST="${POSTGRES_HOST:=localhost}"
 
 # Lauch postgres with Docker
->&2 echo "$(command docker compose -f ./scripts/docker-compose.yaml -p zero-2-prod up -d )"
+if [[ -z "${SKIP_DOCKER}" ]]
+then
+        >&2 echo "$(command docker compose -f ./scripts/docker-compose.yaml -p zero-2-prod up -d )"
+fi
 
 export PGPASSWORD="${DB_PASSWORD}"
 until psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
