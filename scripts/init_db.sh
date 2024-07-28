@@ -6,7 +6,14 @@ if ! [ -x "$(command -v psql)" ]; then
         exit 1
 fi
 
-if ! [ -x "$(command --version sqlx)"]; then
+
+if [[ "$OSTYPE" == "win32" ]]; then
+	let SQLX_CHECK_COMMAD = "$(command --version sqlx)"
+else
+	let SQLX_CHECK_COMMAD = "$(command -v sqlx)";
+fi
+
+if ! [ -x "$($SQLX_CHECK_COMMAD)"]; then
         echo >&2 "Error: sqlx is not installed"
         echo >&2 "Use:"
         echo >&2 "      cargo install sqlx-cli --no-default-features --features rustls,postgres"
