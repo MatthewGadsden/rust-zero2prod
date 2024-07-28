@@ -95,29 +95,24 @@ async fn subscribe_returns_a_400_when_data_is_missing() {
 	}
 }
 
-
 pub struct TestApp {
 	pub address: String,
 	pub db_pool: PgPool,
 }
 
 async fn spawn_app() -> TestApp {
-	let listener = TcpListener::bind("127.0.0.1:0")
-		.expect("Failed to bind random port");
+	let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
 	let port = listener.local_addr().unwrap().port();
 
 	let app_address = format!("http://127.0.0.1:{}", port);
 	println!("{}", app_address);
 
 	let configuration = get_configuration().expect("Failed to read configuration");
-	let connection_pool = PgPool::connect(
-			&configuration.database.connection_string()
-		)
+	let connection_pool = PgPool::connect(&configuration.database.connection_string())
 		.await
 		.expect("Failed to connect to Postgres.");
 
-	let server = run(listener, connection_pool.clone())
-		.expect("Failed to bind address");
+	let server = run(listener, connection_pool.clone()).expect("Failed to bind address");
 	let _ = tokio::spawn(server);
 
 	TestApp {
