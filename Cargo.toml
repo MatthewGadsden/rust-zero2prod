@@ -19,6 +19,8 @@ serde = { version = "1.0.204", features = ["derive"] }
 tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
 openssl = { version = "0.10", features = ["vendored"] }
 config = "0.14"
+uuid = { version = "1.10", features = ["v4"] }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
 
 [dependencies.sqlx]
 version = "0.8"
