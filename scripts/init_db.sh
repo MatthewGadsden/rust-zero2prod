@@ -2,18 +2,11 @@ set -x
 set -eo pipefail
 
 if ! [ -x "$(command -v psql)" ]; then
-        echo >&2 "Error: pql is not installed."
+        echo >&2 "Error: psql is not installed."
         exit 1
 fi
 
-
-if [[ "$OSTYPE" == "win32" ]]; then
-	let SQLX_CHECK_COMMAD = "$(command --version sqlx)"
-else
-	let SQLX_CHECK_COMMAD = "$(command -v sqlx)";
-fi
-
-if ! [ -x "$($SQLX_CHECK_COMMAD)"]; then
+if ! [ -x "$(command -v sqlx)" ]; then
         echo >&2 "Error: sqlx is not installed"
         echo >&2 "Use:"
         echo >&2 "      cargo install sqlx-cli --no-default-features --features rustls,postgres"
