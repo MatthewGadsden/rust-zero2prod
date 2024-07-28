@@ -17,6 +17,7 @@ name = "zero2prod"
 actix-web = "4.8.0"
 serde = { version = "1.0.204", features = ["derive"] }
 tokio = { version = "1.38.0", features = ["macros", "rt-multi-thread"] }
+openssl = "0.10.66"
 
 [dev-dependencies]
 reqwest = "0.11"
