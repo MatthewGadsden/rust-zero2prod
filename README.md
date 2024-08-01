@@ -13,6 +13,12 @@
   <img src="https://img.shields.io/badge/Actix-000?logo=actix&logoColor=fff&style=for-the-badge" alt="Actix Badge">
 </div>
 
+<div align="center">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/MatthewGadsden/rust-zero2prod">
+  <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/MatthewGadsden/rust-zero2prod/general-ci.yaml">
+  <img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/MatthewGadsden/rust-zero2prod">
+</div>
+
 My project for "Zero2Prod in Rust" book by Luca Palmiere
 
 ## Zero To Production In Rust
