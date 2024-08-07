@@ -3,7 +3,7 @@ use sqlx::{Connection, Executor, PgConnection, PgPool};
 use std::net::TcpListener;
 use uuid::Uuid;
 use zero2prod::{
-	configuration::{get_configuration, DatabaseSettings},
+	configuration::{get_configuration, DatabaseSettings, Settings},
 	startup::run,
 };
 
@@ -23,6 +23,8 @@ async fn health_check_works() {
 	// Response
 	assert!(response.status().is_success());
 	assert_eq!(Some(0), response.content_length());
+
+	database_spindown(&test_app.config.database).await;
 }
 
 #[tokio::test]
@@ -41,6 +43,8 @@ async fn api_base_works() {
 	// Response
 	assert!(response.status().is_success());
 	assert_eq!(Some(0), response.content_length());
+
+	database_spindown(&test_app.config.database).await;
 }
 
 #[tokio::test]
@@ -69,6 +73,8 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
 
 	assert_eq!(saved.email, "ursula_le_guin@gmail.com");
 	assert_eq!(saved.name, "le guin");
+
+	database_spindown(&test_app.config.database).await;
 }
 
 #[tokio::test]
@@ -97,11 +103,14 @@ async fn subscribe_returns_a_400_when_data_is_missing() {
 			error_message
 		);
 	}
+
+	database_spindown(&test_app.config.database).await;
 }
 
 pub struct TestApp {
 	pub address: String,
 	pub db_pool: PgPool,
+	pub config: Settings,
 }
 
 async fn spawn_app() -> TestApp {
@@ -122,6 +131,7 @@ async fn spawn_app() -> TestApp {
 	TestApp {
 		address: app_address,
 		db_pool: connection_pool,
+		config: configuration,
 	}
 }
 
@@ -145,4 +155,15 @@ pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
 		.expect("Failed to migrate the database");
 
 	connection_pool
+}
+
+pub async fn database_spindown(config: &DatabaseSettings) {
+	let mut connection = PgConnection::connect(&config.connection_string_without_db())
+		.await
+		.expect("Failed to connect to Postgres");
+
+	connection
+		.execute(format!(r#"DROP DATABASE "{}" WITH (FORCE);"#, config.database_name).as_str())
+		.await
+		.expect("Failed to drop database.");
 }
