@@ -118,8 +118,7 @@ async fn spawn_app() -> TestApp {
 	let port = listener.local_addr().unwrap().port();
 
 	let app_address = format!("http://127.0.0.1:{}", port);
-	println!("{}", app_address);
-
+	
 	let mut configuration = get_configuration().expect("Failed to read configuration");
 	configuration.database.database_name = Uuid::new_v4().to_string();
 
