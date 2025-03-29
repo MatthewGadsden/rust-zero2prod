@@ -35,4 +35,4 @@ features = [
 ]
 
 [dev-dependencies]
-reqwest = "0.12.9"
+reqwest = "0.12.15"
